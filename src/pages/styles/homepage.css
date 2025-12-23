@@ -1,0 +1,202 @@
+@import "../../data/styles.css";
+
+/* ---------- Header / Logo ---------- */
+.homepage-logo-container {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-top: 130px;
+}
+
+.homepage-container {
+  padding-top: 10px;
+}
+
+/* ---------- First fold layout ---------- */
+.homepage-first-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homepage-first-area-left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.homepage-title { width: 85% !important; }
+.homepage-subtitle { width: 85% !important; }
+
+/* ---------- RIGHT SIDE modern orbit ---------- */
+.homepage-first-area-right-side {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;         /* center the orbit */
+  flex: 1 1 50%;
+  min-width: 320px;
+  padding-left: 12px;
+  padding-right: 12px;
+  overflow: visible;               /* allow glow to extend */
+  z-index: 1;
+  margin-top: 60px;                /* move whole component lower */
+}
+
+/* Orbit container */
+.tech-orbit {
+  position: relative;
+  width: min(520px, 90%);
+  height: min(520px, 90vw);
+  max-height: 520px;
+  margin: 20px auto 0;             /* small extra push down */
+  overflow: visible;
+  isolation: isolate;              /* keep pseudo background behind cards */
+}
+
+/* Rotates the whole ring (must be outside media query!) */
+.tech-orbit-rotator {
+  position: absolute;
+  inset: 0;                        /* full size of .tech-orbit */
+  transform-origin: 50% 50%;
+}
+
+/* Soft background glow that never clips on the right */
+.tech-orbit::before {
+  content: "";
+  position: absolute;
+  inset: -18% -22% -18% -8%;       /* extend beyond edges */
+  border-radius: 40px;
+  background:
+    radial-gradient(60% 60% at 35% 30%, rgba(99, 226, 255, 0.35), transparent 70%),
+    radial-gradient(60% 60% at 70% 70%, rgba(181, 148, 255, 0.35), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.65));
+  filter: blur(8px);
+  z-index: -1;
+}
+
+/* Place items around a circle using CSS variables (--i index, --n total) */
+.tech-orbit-item {
+  --radius: clamp(120px, 32%, 180px);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform:
+    rotate(calc(360deg / var(--n) * var(--i)))
+    translate(var(--radius))
+    rotate(calc(-360deg / var(--n) * var(--i))); /* keep card upright */
+  will-change: transform;
+  z-index: 1;                      /* above glow */
+}
+
+/* Card */
+.tech-card {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 24px rgba(16, 24, 40, 0.12),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  transform: perspective(800px) rotateX(6deg);
+}
+
+/* Tooltip */
+.tech-card .tech-tooltip {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  background: rgba(17, 24, 39, 0.95);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  transform-origin: top center;
+}
+
+.tech-card:hover .tech-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* Subtle float for depth */
+@keyframes floaty {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+.tech-card { animation: floaty 4.5s ease-in-out infinite; }
+.tech-orbit-item:nth-child(2) .tech-card { animation-delay: .2s; }
+.tech-orbit-item:nth-child(3) .tech-card { animation-delay: .4s; }
+.tech-orbit-item:nth-child(4) .tech-card { animation-delay: .6s; }
+.tech-orbit-item:nth-child(5) .tech-card { animation-delay: .8s; }
+.tech-orbit-item:nth-child(6) .tech-card { animation-delay: 1s; }
+.tech-orbit-item:nth-child(7) .tech-card { animation-delay: 1.2s; }
+.tech-orbit-item:nth-child(8) .tech-card { animation-delay: 1.4s; }
+
+/* Hide old image block */
+.homepage-image-container,
+.homepage-image-wrapper { display: none !important; }
+
+/* ---------- Socials ---------- */
+.homepage-socials {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.homepage-social-icon {
+  padding-right: 20px;
+  font-size: 25px;
+  transition: color 0.2s ease-in-out;
+  color: var(--secondary-color);
+}
+.homepage-social-icon:hover { color: var(--primary-color); }
+
+/* ---------- Projects & Works ---------- */
+.homepage-after-title { display: flex; }
+.homepage-projects { flex-basis: 300px; padding-top: 40px; }
+.homepage-works { flex-basis: 600px; padding-top: 30px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .homepage-first-area { flex-direction: column; }
+
+  .homepage-first-area-left-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    order: 2;
+  }
+
+  .homepage-title { width: 100% !important; margin-top: 20px; order: 2; }
+  .homepage-subtitle { width: 100% !important; margin-top: 10px; order: 3; }
+
+  /* .homepage-first-area-right-side {
+    width: 100%;
+    order: 1;
+    min-width: 0;
+    margin-top: 32px;
+  } */
+
+  .tech-orbit {
+    width: min(460px, 92%);
+    height: min(460px, 92vw);
+    margin-top: 36px;
+  }
+
+  .tech-orbit::before { inset: -22% -28% -22% -10%; } /* keep glow visible on small screens */
+}
